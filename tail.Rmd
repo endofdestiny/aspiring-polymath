@@ -1,0 +1,74 @@
+---
+title: "Keeping track of running code"
+output: html_document
+---
+
+
+
+The first point of this post is to give a simple way to check whether code is still running or has hung.
+
+`tail -f output_file` 
+
+will keep running the tail command line utility on `output_file` and update itself as new lines are written. Where `output_file` here could be a logfile.
+
+Another similar approach is to use `wc -l filename` which will use word count to give the number of lines present in a file and can be useful to see the status of writing out data.
+
+
+## Publishining to Wordpress from Rmarkdown
+
+The second point of this post is to test out an automated way of posting from Rmarkdown to a wordpress site using the *RWordPress* package. 
+
+
+To be clear, while the code is presented below in a *knitr* chunk, I find it easier to run it as a script seperately after knitting the .Rmd document to html (I'll probably functionalise this at some stage).
+
+> The Rmarkdown file here is saved as tail.Rmd
+
+```{r setup, eval=FALSE, echo=TRUE}
+
+# install required packages
+if (!require('knitr')) {
+  install.packages("knitr")
+}
+if (!require('devtools')) {
+  install.packages("devtools")
+}
+if (!require('RWordPress')) {
+  devtools::install_github(c("duncantl/XMLRPC", "duncantl/RWordPress"))
+}
+
+# Give the user name, password, and URL for the WordPress site.
+options(WordpressLogin = c(user = 'password'),
+        WordpressURL = 'http://[url]/xmlrpc.php')
+
+
+```
+
+`user` is the wordpress login username (unquoted).
+
+`password` is the password for the site (quoted).
+
+`[url]` is the sites URL either in the format of **mysite.com** or **mysite.wordpress.com**.
+
+
+
+```{r publish, eval=FALSE, echo=TRUE}
+
+library(RWordPress)
+library(knitr)
+
+knit2wp('path_to_file/tail.Rmd',
+        title = 'Keeping track of running code',
+        categories = c('Tools','R'), publish = FALSE )
+
+```
+
+
+`categories = c('Tools', 'R')` will only work if the categories listed have already been created.
+
+`publish` is set to FALSE to allow me to review the post before it is published.
+
+
+More information on how to do this can be found [here](https://www.r-bloggers.com/create-blog-posts-from-rstudio-to-wordpress/) and [here](http://sites.tufts.edu/emotiononthebrain/2017/08/12/blog-posting-from-r-markdown-to-wordpress/).
+
+
+
