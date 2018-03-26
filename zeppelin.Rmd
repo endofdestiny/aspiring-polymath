@@ -1,0 +1,45 @@
+---
+title: "Apache Zeppelin through Docker"
+output: html_document
+---
+
+
+
+Docker is a fantastic tool for making work reproducible, scalable and portable.
+It can be downloaded from [here](https://www.docker.com/community-edition).
+
+
+
+Apache Zeppelin is a literate programming notebook in a similar vain to Jupyter that works great with spark and scala as well as other big data technologies.
+
+It can be started from within a docker container like so:
+
+
+```
+docker run -p 8080:8080 --rm  -v $PWD/notebook:/notebook  -e ZEPPELIN_NOTEBOOK_DIR='/notebook' --name zeppelin apache/zeppelin:0.7.3
+
+```
+
+where notebooks created will persist even after docker is stopped. They are saved into the directory where the above command is run. The notebook can be accessed by opening a browser and going to http://localhost:8080/. 
+
+Optionally,
+
+
+
+```
+docker run -p 8080:8080 --rm -v $PWD/logs:/logs -v $PWD/notebook:/notebook -e ZEPPELIN_LOG_DIR='/logs' -e ZEPPELIN_NOTEBOOK_DIR='/notebook' --name zeppelin apache/zeppelin:0.7.3
+
+```
+
+will keep both notebooks and logs. Rather than typing this command every time I want to spin up a docker container of my zeppelin notebooks I've created an alias in my bash profile and can just type `dzep`.
+
+```
+#zeppellin docker command
+alias dzep="docker run -p 8080:8080 --rm  -v $PWD/notebook:/notebook  -e ZEPPELIN_NOTEBOOK_DIR='/notebook' --name zeppelin apache/zeppelin:0.7.3"
+
+```
+
+
+
+
+
