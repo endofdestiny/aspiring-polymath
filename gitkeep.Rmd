@@ -1,0 +1,17 @@
+---
+title: "Adding empty directories to git"
+output: html_document
+---
+
+Sometimes you want to add an empty diectory to a Git repo but Git won't keep your directory structure intact if there's no file present. The trick around this is to add a hidden file to the repo.
+
+
+```touch data/.gitkeep```
+
+
+Here it's called `.gitkeep` but it could be called anything starting with a dot.
+
+To view any hidden files in a directory you can use:
+
+
+``` ls -a ```
