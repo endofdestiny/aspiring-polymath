@@ -1,0 +1,30 @@
+---
+title: "Mapping over options in Scala"
+output: html_document
+---
+
+As a simple example let's say that we have a map from people to ages.
+
+```
+val peoplesAge = Map("John Smith" -> 21, "Kate Tungsten" -> 34, "Fred Upton" -> 62, "Lisa Perry" -> 43 )
+
+```
+
+Now *maps* are treated as functions so to access the value associated with a particular key, you can do this:
+
+```
+peoplesAge("John Smith")
+```
+
+However, if you try to access a key that doesn't exist e.g. `peoplesAge("Lisa Smith")`, you end up with a `java.util.NoSuchElementException` error.
+
+This can be avoided using `get` which returns an option of either `Some(age)` or a `None`.
+
+You can write a pattern matching function for what to do with these Nones, but if you only want to deal with the values that you actually have keys for then flatMap works great.
+
+```
+List("John Smith", "Lisa Smith") flatMap (peoplesAge.get)
+```
+
+Will only return `List(21)` , corresponding to John Smiths age.
+
