@@ -1,0 +1,13 @@
+---
+title: "Exploring Final Variables in Python"
+output: html_document
+---
+
+Put the following code at the end of a python script and it'll open an interactive python console which allows you to explore what variables are in memory at that time.
+
+```{python, eval=FALSE}
+from code import interact
+interact(local=dict(globals(), **locals()))
+```
+
+Very handy if you have lots of variables and are debugging.
